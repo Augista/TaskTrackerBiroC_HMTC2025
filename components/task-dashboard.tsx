@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 import {
   PieChart,
   Pie,
@@ -173,10 +174,20 @@ export function TaskDashboard() {
     <div className="min-h-screen bg-background p-2 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
         {/* Header */}
-        <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center sm:gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Task Tracker</h1>
-            <p className="text-sm sm:text-base text-muted-foreground">Manage your team's tasks and track progress</p>
+  
+          <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4">
+         <Image 
+          src="images/hmtc.png"  
+          alt="Logo Biro C"
+          width={70}
+          height={70}
+          className="mx-auto sm:mx-0"
+        />
+            <div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Task Tracker Biro C</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Project Tracker Biro C HMTC 2025</p>
+            </div>
           </div>
           <Button onClick={() => setShowTaskForm(true)} className="bg-primary hover:bg-primary/90 w-full sm:w-auto">
             <Plus className="w-4 h-4 mr-2" />
