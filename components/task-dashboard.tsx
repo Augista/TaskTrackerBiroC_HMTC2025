@@ -174,7 +174,6 @@ export function TaskDashboard() {
     <div className="min-h-screen bg-background p-2 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
         {/* Header */}
-  
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center sm:gap-4">
           <div className="flex items-center gap-3 sm:gap-4">
          <Image 
@@ -235,7 +234,7 @@ export function TaskDashboard() {
           </Card>
         </div>
 
-        {/* Charts - Updated grid layout for mobile */}
+        {/* Charts  */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
           <Card>
             <CardHeader className="px-3 sm:px-6 pt-3 sm:pt-6">
@@ -449,7 +448,6 @@ export function TaskDashboard() {
           </Card>
         </div>
 
-        {/* Task Table */}
         <Card>
           <CardHeader className="px-3 sm:px-6 pt-3 sm:pt-6">
             <CardTitle className="text-sm sm:text-base">All Tasks</CardTitle>
@@ -460,7 +458,6 @@ export function TaskDashboard() {
           </CardContent>
         </Card>
 
-        {/* Task Form Modal */}
         {showTaskForm && <TaskForm onClose={() => setShowTaskForm(false)} onTaskCreated={handleTaskCreated} />}
       </div>
     </div>

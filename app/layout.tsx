@@ -6,6 +6,9 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'biro C 2025 tracker App',
   description: 'Task Management biro C',
+  icons: {
+    icon: "/favicon.ico",
+  },
 
 }
 
@@ -18,11 +21,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <style>{`
-html {
-  font-family: ${GeistSans.style.fontFamily};
-  --font-sans: ${GeistSans.variable};
-  --font-mono: ${GeistMono.variable};
-}
+          html {
+            font-family: ${GeistSans.style.fontFamily};
+            --font-sans: ${GeistSans.variable};
+            --font-mono: ${GeistMono.variable};
+          }
         `}</style>
       </head>
       <body>{children}</body>
