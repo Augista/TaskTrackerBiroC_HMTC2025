@@ -108,13 +108,37 @@ export function TaskDashboard() {
     return Object.values(teamStats).sort((a, b) => b.total - a.total)
   }
 
-  const taskTimelineData = () => {
-    const timelineStats = tasks.reduce(
+  // const taskTimelineData = () => {
+  //   const timelineStats = tasks.reduce(
+  //     (acc, task) => {
+  //       const date = new Date(task.created_at).toLocaleDateString("en-US", {
+  //         month: "short",
+  //         day: "numeric",
+  //       })
+  //       if (!acc[date]) {
+  //         acc[date] = { date, tasks: 0 }
+  //       }
+  //       acc[date].tasks += 1
+  //       return acc
+  //     },
+  //     {} as Record<string, { date: string; tasks: number }>,
+  //   )
+
+  //   return Object.values(timelineStats).sort(
+  //     (a, b) => new Date(a.date + ", 2024").getTime() - new Date(b.date + ", 2024").getTime(),
+  //   )
+  // }
+
+    const taskDueDateData = () => {
+    const dueStats = tasks.reduce(
       (acc, task) => {
-        const date = new Date(task.created_at).toLocaleDateString("en-US", {
+        if (!task.due_date) return acc // skip kalau due_date kosong
+
+        const date = new Date(task.due_date).toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
         })
+
         if (!acc[date]) {
           acc[date] = { date, tasks: 0 }
         }
@@ -124,10 +148,11 @@ export function TaskDashboard() {
       {} as Record<string, { date: string; tasks: number }>,
     )
 
-    return Object.values(timelineStats).sort(
-      (a, b) => new Date(a.date + ", 2024").getTime() - new Date(b.date + ", 2024").getTime(),
+    return Object.values(dueStats).sort(
+      (a, b) => new Date(a.date + ", 2025").getTime() - new Date(b.date + ", 2025").getTime(),
     )
   }
+
 
   // Chart data
   const statusData = [
@@ -394,7 +419,7 @@ export function TaskDashboard() {
             </CardContent>
           </Card>
 
-          <Card>
+          {/* <Card>
             <CardHeader className="px-3 sm:px-6 pt-3 sm:pt-6">
               <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
                 <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
@@ -446,7 +471,67 @@ export function TaskDashboard() {
               )}
             </CardContent>
           </Card>
-        </div>
+        */}
+        
+
+            <Card>
+  <CardHeader className="px-3 sm:px-6 pt-3 sm:pt-6">
+    <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+      <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
+      Task Due Date Timeline
+    </CardTitle>
+    <CardDescription className="text-xs sm:text-sm">
+      Task deadlines over time
+    </CardDescription>
+  </CardHeader>
+  <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+    {taskDueDateData().length > 0 ? (
+      <ChartContainer
+        config={{
+          tasks: { label: "Tasks Due", color: "hsl(25, 95%, 53%)" },
+        }}
+        className="h-[200px] sm:h-[300px]"
+      >
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={taskDueDateData()}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" fontSize={10} />
+            <YAxis fontSize={10} />
+            <ChartTooltip
+              content={({ active, payload, label }) => {
+                if (active && payload && payload.length) {
+                  return (
+                    <div className="bg-background border rounded-lg p-2 shadow-md">
+                      <p className="font-medium text-sm">{label}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {payload[0].value} tasks due
+                      </p>
+                    </div>
+                  )
+                }
+                return null
+              }}
+            />
+            <Line
+              type="monotone"
+              dataKey="tasks"
+              stroke="hsl(25, 95%, 53%)"
+              strokeWidth={2}
+              dot={{ fill: "hsl(25, 95%, 53%)", strokeWidth: 2, r: 3 }}
+              activeDot={{ r: 4, stroke: "hsl(25, 95%, 53%)", strokeWidth: 2 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </ChartContainer>
+    ) : (
+      <div className="h-[200px] sm:h-[300px] flex items-center justify-center text-muted-foreground text-sm">
+        No due date data to display
+      </div>
+    )}
+  </CardContent>
+</Card>
+ </div>
+
 
         <Card>
           <CardHeader className="px-3 sm:px-6 pt-3 sm:pt-6">
