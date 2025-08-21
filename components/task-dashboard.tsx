@@ -57,10 +57,10 @@ export function TaskDashboard() {
       }
 
       const data = await response.json()
-      console.log(" Received tasks data:", data)
+      console.log("[v0] Received tasks data:", data)
       setTasks(Array.isArray(data) ? data : [])
     } catch (error) {
-      console.error(" Error fetching tasks:", error)
+      console.error("[v0] Error fetching tasks:", error)
       const errorMessage = error instanceof Error ? error.message : "Failed to fetch tasks"
       setError(errorMessage)
       setTasks([])
@@ -170,73 +170,74 @@ export function TaskDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6 lg:p-8">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-background p-2 sm:p-4 md:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center sm:gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Task Tracker</h1>
-            <p className="text-muted-foreground">Manage your team's tasks and track progress</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Task Tracker</h1>
+            <p className="text-sm sm:text-base text-muted-foreground">Manage your team's tasks and track progress</p>
           </div>
-          <Button onClick={() => setShowTaskForm(true)} className="bg-primary hover:bg-primary/90">
+          <Button onClick={() => setShowTaskForm(true)} className="bg-primary hover:bg-primary/90 w-full sm:w-auto">
             <Plus className="w-4 h-4 mr-2" />
             Add Task
           </Button>
         </div>
 
         {/* Statistics Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4">
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Tasks</CardTitle>
-              <AlertCircle className="h-4 w-4 text-muted-foreground" />
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Total Tasks</CardTitle>
+              <AlertCircle className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{totalTasks}</div>
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+              <div className="text-lg sm:text-2xl font-bold">{totalTasks}</div>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Completed</CardTitle>
-              <div className="h-4 w-4 rounded-full bg-green-500"></div>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Completed</CardTitle>
+              <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-green-500"></div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-green-600">{completedTasks}</div>
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+              <div className="text-lg sm:text-2xl font-bold text-green-600">{completedTasks}</div>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">In Progress</CardTitle>
-              <div className="h-4 w-4 rounded-full bg-blue-500"></div>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">In Progress</CardTitle>
+              <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-blue-500"></div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-blue-600">{inProgressTasks}</div>
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+              <div className="text-lg sm:text-2xl font-bold text-blue-600">{inProgressTasks}</div>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Pending</CardTitle>
-              <div className="h-4 w-4 rounded-full bg-orange-500"></div>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="text-xs sm:text-sm font-medium">Pending</CardTitle>
+              <div className="h-3 w-3 sm:h-4 sm:w-4 rounded-full bg-orange-500"></div>
             </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-orange-600">{pendingTasks}</div>
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
+              <div className="text-lg sm:text-2xl font-bold text-orange-600">{pendingTasks}</div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Charts - Updated grid layout for mobile */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6">
           <Card>
-            <CardHeader>
-              <CardTitle>Task Status Distribution</CardTitle>
-              <CardDescription>Overview of task completion status</CardDescription>
+            <CardHeader className="px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="text-sm sm:text-base">Task Status Distribution</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Overview of task completion status</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
               {statusData.length > 0 ? (
                 <ChartContainer
                   config={{
                     value: { label: "Tasks" },
                   }}
-                  className="h-[300px]"
+                  className="h-[200px] sm:h-[300px]"
                 >
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -245,8 +246,13 @@ export function TaskDashboard() {
                         cx="50%"
                         cy="50%"
                         labelLine={false}
-                        label={({ name, percent = 0 }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                        outerRadius={80}
+                        label={({ name, percent = 0 }) =>
+                          window.innerWidth > 640
+                            ? `${name} ${(percent * 100).toFixed(0)}%`
+                            : `${(percent * 100).toFixed(0)}%`
+                        }
+                        outerRadius={window.innerWidth > 640 ? 80 : 60}
+                        fill="#8884d8"
                         dataKey="value"
                       >
                         {statusData.map((entry, index) => (
@@ -259,8 +265,8 @@ export function TaskDashboard() {
                             const data = payload[0].payload
                             return (
                               <div className="bg-background border rounded-lg p-2 shadow-md">
-                                <p className="font-medium">{data.name}</p>
-                                <p className="text-sm text-muted-foreground">{data.value} tasks</p>
+                                <p className="font-medium text-sm">{data.name}</p>
+                                <p className="text-xs text-muted-foreground">{data.value} tasks</p>
                               </div>
                             )
                           }
@@ -271,7 +277,7 @@ export function TaskDashboard() {
                   </ResponsiveContainer>
                 </ChartContainer>
               ) : (
-                <div className="h-[300px] flex items-center justify-center text-muted-foreground">
+                <div className="h-[200px] sm:h-[300px] flex items-center justify-center text-muted-foreground text-sm">
                   No tasks to display
                 </div>
               )}
@@ -279,30 +285,30 @@ export function TaskDashboard() {
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle>Task Priority Breakdown</CardTitle>
-              <CardDescription>Tasks organized by priority level</CardDescription>
+            <CardHeader className="px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="text-sm sm:text-base">Task Priority Breakdown</CardTitle>
+              <CardDescription className="text-xs sm:text-sm">Tasks organized by priority level</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
               {priorityData.some((item) => item.value > 0) ? (
                 <ChartContainer
                   config={{
                     value: { label: "Tasks" },
                   }}
-                  className="h-[300px]"
+                  className="h-[200px] sm:h-[300px]"
                 >
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={priorityData}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
+                      <XAxis dataKey="name" fontSize={12} />
+                      <YAxis fontSize={12} />
                       <ChartTooltip
                         content={({ active, payload, label }) => {
                           if (active && payload && payload.length) {
                             return (
                               <div className="bg-background border rounded-lg p-2 shadow-md">
-                                <p className="font-medium">{label} Priority</p>
-                                <p className="text-sm text-muted-foreground">{payload[0].value} tasks</p>
+                                <p className="font-medium text-sm">{label} Priority</p>
+                                <p className="text-xs text-muted-foreground">{payload[0].value} tasks</p>
                               </div>
                             )
                           }
@@ -318,7 +324,7 @@ export function TaskDashboard() {
                   </ResponsiveContainer>
                 </ChartContainer>
               ) : (
-                <div className="h-[300px] flex items-center justify-center text-muted-foreground">
+                <div className="h-[200px] sm:h-[300px] flex items-center justify-center text-muted-foreground text-sm">
                   No tasks to display
                 </div>
               )}
@@ -326,37 +332,37 @@ export function TaskDashboard() {
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
+            <CardHeader className="px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+                <Users className="h-4 w-4 sm:h-5 sm:w-5" />
                 Team Performance
               </CardTitle>
-              <CardDescription>Individual team member task completion</CardDescription>
+              <CardDescription className="text-xs sm:text-sm">Individual team member task completion</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
               {teamPerformanceData().length > 0 ? (
                 <ChartContainer
                   config={{
                     completed: { label: "Completed Tasks", color: "hsl(142, 76%, 36%)" },
                     total: { label: "Total Tasks", color: "hsl(217, 91%, 60%)" },
                   }}
-                  className="h-[300px]"
+                  className="h-[200px] sm:h-[300px]"
                 >
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={teamPerformanceData()} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+                    <BarChart data={teamPerformanceData()} margin={{ top: 20, right: 10, left: 10, bottom: 60 }}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} fontSize={12} />
-                      <YAxis />
+                      <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} fontSize={10} />
+                      <YAxis fontSize={10} />
                       <ChartTooltip
                         content={({ active, payload, label }) => {
                           if (active && payload && payload.length) {
                             const data = payload[0].payload
                             return (
-                              <div className="bg-background border rounded-lg p-3 shadow-md">
-                                <p className="font-medium">{label}</p>
-                                <p className="text-sm text-green-600">Completed: {data.completed}</p>
-                                <p className="text-sm text-blue-600">Total: {data.total}</p>
-                                <p className="text-sm text-muted-foreground">
+                              <div className="bg-background border rounded-lg p-2 shadow-md">
+                                <p className="font-medium text-sm">{label}</p>
+                                <p className="text-xs text-green-600">Completed: {data.completed}</p>
+                                <p className="text-xs text-blue-600">Total: {data.total}</p>
+                                <p className="text-xs text-muted-foreground">
                                   Rate: {data.total > 0 ? Math.round((data.completed / data.total) * 100) : 0}%
                                 </p>
                               </div>
@@ -371,7 +377,7 @@ export function TaskDashboard() {
                   </ResponsiveContainer>
                 </ChartContainer>
               ) : (
-                <div className="h-[300px] flex items-center justify-center text-muted-foreground">
+                <div className="h-[200px] sm:h-[300px] flex items-center justify-center text-muted-foreground text-sm">
                   No team data to display
                 </div>
               )}
@@ -379,33 +385,33 @@ export function TaskDashboard() {
           </Card>
 
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <TrendingUp className="h-5 w-5" />
+            <CardHeader className="px-3 sm:px-6 pt-3 sm:pt-6">
+              <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+                <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" />
                 Task Timeline
               </CardTitle>
-              <CardDescription>Task creation over time</CardDescription>
+              <CardDescription className="text-xs sm:text-sm">Task creation over time</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
               {taskTimelineData().length > 0 ? (
                 <ChartContainer
                   config={{
                     tasks: { label: "Tasks Created", color: "hsl(142, 76%, 36%)" },
                   }}
-                  className="h-[300px]"
+                  className="h-[200px] sm:h-[300px]"
                 >
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={taskTimelineData()}>
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="date" />
-                      <YAxis />
+                      <XAxis dataKey="date" fontSize={10} />
+                      <YAxis fontSize={10} />
                       <ChartTooltip
                         content={({ active, payload, label }) => {
                           if (active && payload && payload.length) {
                             return (
                               <div className="bg-background border rounded-lg p-2 shadow-md">
-                                <p className="font-medium">{label}</p>
-                                <p className="text-sm text-muted-foreground">{payload[0].value} tasks created</p>
+                                <p className="font-medium text-sm">{label}</p>
+                                <p className="text-xs text-muted-foreground">{payload[0].value} tasks created</p>
                               </div>
                             )
                           }
@@ -416,15 +422,15 @@ export function TaskDashboard() {
                         type="monotone"
                         dataKey="tasks"
                         stroke="hsl(142, 76%, 36%)"
-                        strokeWidth={3}
-                        dot={{ fill: "hsl(142, 76%, 36%)", strokeWidth: 2, r: 4 }}
-                        activeDot={{ r: 6, stroke: "hsl(142, 76%, 36%)", strokeWidth: 2 }}
+                        strokeWidth={2}
+                        dot={{ fill: "hsl(142, 76%, 36%)", strokeWidth: 2, r: 3 }}
+                        activeDot={{ r: 4, stroke: "hsl(142, 76%, 36%)", strokeWidth: 2 }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
                 </ChartContainer>
               ) : (
-                <div className="h-[300px] flex items-center justify-center text-muted-foreground">
+                <div className="h-[200px] sm:h-[300px] flex items-center justify-center text-muted-foreground text-sm">
                   No timeline data to display
                 </div>
               )}
@@ -434,11 +440,11 @@ export function TaskDashboard() {
 
         {/* Task Table */}
         <Card>
-          <CardHeader>
-            <CardTitle>All Tasks</CardTitle>
-            <CardDescription>Manage and track all your tasks</CardDescription>
+          <CardHeader className="px-3 sm:px-6 pt-3 sm:pt-6">
+            <CardTitle className="text-sm sm:text-base">All Tasks</CardTitle>
+            <CardDescription className="text-xs sm:text-sm">Ini Project Tracker Biro C Internal Affairs HMTC 2025</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-3 sm:px-6 pb-3 sm:pb-6">
             <TaskTable tasks={tasks} onTaskUpdated={handleTaskUpdated} onTaskDeleted={handleTaskDeleted} />
           </CardContent>
         </Card>

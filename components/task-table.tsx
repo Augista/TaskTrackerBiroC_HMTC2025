@@ -4,8 +4,9 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Edit, Trash2, Calendar, User } from "lucide-react"
+import { Edit, Trash2, Calendar, User, MoreVertical } from "lucide-react"
 import { TaskForm } from "./task-form"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 interface Task {
   id: number
@@ -70,7 +71,59 @@ export function TaskTable({ tasks, onTaskUpdated, onTaskDeleted }: TaskTableProp
 
   return (
     <>
-      <div className="overflow-x-auto">
+      {/* Mobile Card View */}
+      <div className="block sm:hidden space-y-3">
+        {tasks.map((task) => (
+          <div key={task.id} className="border rounded-lg p-3 space-y-2">
+            <div className="flex justify-between items-start">
+              <div className="flex-1 min-w-0">
+                <h3 className="font-medium text-sm truncate">{task.title}</h3>
+                <p className="text-xs text-muted-foreground line-clamp-2 mt-1">{task.description}</p>
+              </div>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    <MoreVertical className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => setEditingTask(task)}>
+                    <Edit className="h-4 w-4 mr-2" />
+                    Edit
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleDelete(task.id)} className="text-red-600">
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {getStatusBadge(task.status)}
+              {getPriorityBadge(task.priority)}
+            </div>
+
+            <div className="flex flex-col gap-1 text-xs text-muted-foreground">
+              {task.assigned_to && (
+                <div className="flex items-center gap-1">
+                  <User className="h-3 w-3" />
+                  <span>{task.assigned_to}</span>
+                </div>
+              )}
+              {task.due_date && (
+                <div className="flex items-center gap-1">
+                  <Calendar className="h-3 w-3" />
+                  <span>{formatDate(task.due_date)}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop Table View */}
+      <div className="hidden sm:block overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>
@@ -89,25 +142,6 @@ export function TaskTable({ tasks, onTaskUpdated, onTaskDeleted }: TaskTableProp
                   <div>
                     <div className="font-medium">{task.title}</div>
                     <div className="text-sm text-muted-foreground line-clamp-2">{task.description}</div>
-                    {/* Mobile-only info */}
-                    <div className="flex gap-2 mt-2 sm:hidden">
-                      {getStatusBadge(task.status)}
-                      {getPriorityBadge(task.priority)}
-                    </div>
-                    <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground lg:hidden">
-                      {task.assigned_to && (
-                        <div className="flex items-center gap-1">
-                          <User className="h-3 w-3" />
-                          {task.assigned_to}
-                        </div>
-                      )}
-                      {task.due_date && (
-                        <div className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {formatDate(task.due_date)}
-                        </div>
-                      )}
-                    </div>
                   </div>
                 </TableCell>
                 <TableCell className="hidden sm:table-cell">{getStatusBadge(task.status)}</TableCell>
